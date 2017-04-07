@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <iostream>
 #include <Windows.h>
+#include <math.h>
+
+//TODO CLASS FOR MOUSE MOVEMENT, INCLUDING METHODS FOR CONVERTING X AND Y INTO REAL SCREEN COORDINATES
 
 #include "opencv2/objdetect/objdetect.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
@@ -13,7 +16,7 @@ using namespace cv;
 /* Headers */
 void faceDetection (Mat frame);
 int cameraImage ();
-
+void moveMouse (int x, int y, int totalPixels);
 
 /** Global variables */
 String faceXML = "C:\\Mingw_build\\install\\etc\\haarcascades\\haarcascade_frontalface_alt.xml";
@@ -33,9 +36,12 @@ int main (int argc, const char** argv){
 
 
 int cameraImage(){
-	VideoCapture cap( cameraNumber);
-	cout << "Res x " << cap.get(CV_CAP_PROP_FRAME_WIDTH);
-	cout << "Res y " << cap.get(CV_CAP_PROP_FRAME_HEIGHT);
+	VideoCapture cap(cameraNumber);
+
+	cout << "Camera x resolution: " << cap.get(CV_CAP_PROP_FRAME_WIDTH) << "\n";
+	cout << "Camera y resolution: " << cap.get(CV_CAP_PROP_FRAME_HEIGHT);
+
+	int totalCameraPixels = cap.get(CV_CAP_PROP_FRAME_WIDTH)*cap.get(CV_CAP_PROP_FRAME_HEIGHT);
 	Mat frame;
 	//==================
 	// size of screen (primary monitor) without taskbar or desktop toolbars
@@ -43,7 +49,8 @@ int cameraImage(){
 	   HWND hDesktop=::GetDesktopWindow();
 	   // Gets the Desktop window rect or screen resolution in pixels
 	   ::GetWindowRect(hDesktop, &DesktopRect);
-	   cout <<  " X"<<DesktopRect.right<<  " Y"<< DesktopRect.bottom;
+	   cout <<  "\nScreen X resolution: "<<DesktopRect.right<<  "\nScreen Y resolution: "<< DesktopRect.bottom<<"\n";
+	int totalScreenPixels=DesktopRect.right*DesktopRect.bottom;
 
 
 
@@ -59,7 +66,6 @@ int cameraImage(){
 	}
 	int x=0;
 	while( true ){
-		//SetCursorPos(x++,900);
 	    cap >> frame;
 	    faceDetection(frame);
 	    int c = waitKey(10);
@@ -86,9 +92,17 @@ void faceDetection (Mat frame){
 		        int radius = cvRound( (eyes[j].width + eyes[j].height)*0.25 );
 		        circle( frame, center, radius, Scalar( 255, 0, 0 ), 4, 8, 0 );
 
-				 cout <<  " Posicao face"<<faces[i].x <<  " Posicao olhos"<< eyes[j].x;
+				 cout <<  " Posicao face"<< ((((float)faces[i].x)/640)*1920) <<  " Posicao olhos"<< eyes[j].x;
+				 moveMouse(faces[i].x,faces[i].y,0);
 		      }
 	}
 	imshow(window, frame);
+
+
+}
+
+void moveMouse (int x, int y, int totalPixels){
+
+	SetCursorPos(x,y);
 
 }
