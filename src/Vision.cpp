@@ -37,7 +37,6 @@ int main (int argc, const char** argv){
 
 int cameraImage(){
 	VideoCapture cap(cameraNumber);
-
 	cout << "Camera x resolution: " << cap.get(CV_CAP_PROP_FRAME_WIDTH) << "\n";
 	cout << "Camera y resolution: " << cap.get(CV_CAP_PROP_FRAME_HEIGHT);
 
@@ -67,6 +66,7 @@ int cameraImage(){
 	int x=0;
 	while( true ){
 	    cap >> frame;
+	    flip(frame,frame,1);
 	    faceDetection(frame);
 	    int c = waitKey(10);
 	     if( (char)c == 'c' ) { break; }
@@ -104,9 +104,14 @@ void faceDetection (Mat frame){
 
 void moveMouse (int x, int y, int totalPixels){
 	int positionX,positionY;
+	int totalMovementX,totalMovementY;
+	POINT cursorPos;
+	GetCursorPos(&cursorPos);
+	float currentXPos = cursorPos.x;
+	float currentYPos = cursorPos.y;
 	positionX=(((float)x)/640)*1920;
-	positionX=positionX*-1;
 	positionY=(((float)y)/480)*1080;
+	totalMovementX=positionX-currentXPos;
+	totalMovementY=positionY-currentYPos;
 	SetCursorPos(positionX*3,positionY*3);
-
 }
