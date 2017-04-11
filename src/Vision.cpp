@@ -93,6 +93,7 @@ void faceDetection (Mat frame){
 		        circle( frame, center, radius, Scalar( 255, 0, 0 ), 4, 8, 0 );
 
 				 cout <<  " Posicao face"<< ((((float)faces[i].x)/640)*1920) <<  " Posicao olhos"<< eyes[j].x;
+
 				 moveMouse(faces[i].x,faces[i].y,0);
 		      }
 	}
@@ -102,7 +103,10 @@ void faceDetection (Mat frame){
 }
 
 void moveMouse (int x, int y, int totalPixels){
-
-	SetCursorPos(x,y);
+	int positionX,positionY;
+	positionX=(((float)x)/640)*1920;
+	positionX=positionX*-1;
+	positionY=(((float)y)/480)*1080;
+	SetCursorPos(positionX*3,positionY*3);
 
 }
