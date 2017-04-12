@@ -59,6 +59,9 @@ int Mouse::getY(){
 	return (int)cursorPos.y;
 }
 
+void moveTo(int x, int y){
+	SetCursorPos(x,y);
+}
 void goToTopRight (){
 	RECT DesktopRect;
 	HWND hDesktop=::GetDesktopWindow();
@@ -77,23 +80,78 @@ void goToBottonpRight (){
 	RECT DesktopRect;
 	HWND hDesktop=::GetDesktopWindow();
 	::GetWindowRect(hDesktop, &DesktopRect);
-	SetCursorPos(0,DesktopRect.bottom);
+	SetCursorPos(DesktopRect.right,DesktopRect.bottom);
 }
 
 void goToBottonLeft (){
 	RECT DesktopRect;
 	HWND hDesktop=::GetDesktopWindow();
 	::GetWindowRect(hDesktop, &DesktopRect);
-	SetCursorPos(DesktopRect.right,0);
+	SetCursorPos(0,DesktopRect.bottom);
 }
 
 void goToCenter (){
 	RECT DesktopRect;
 	HWND hDesktop=::GetDesktopWindow();
 	::GetWindowRect(hDesktop, &DesktopRect);
-	SetCursorPos(DesktopRect.right,0);
+	SetCursorPos(DesktopRect.right/2,DesktopRect.bottom/2);
 }
 
+int currentXPosition(){
+	POINT cursorPos;
+	GetCursorPos(&cursorPos);
+	float currentXPos = cursorPos.x;
+	return (int)currentXPos;
+}
+int currentYPosition(){
+	POINT cursorPos;
+	GetCursorPos(&cursorPos);
+	float currentYPos = cursorPos.y;
+	return (int)currentYPos;
+}
+
+bool CheckLeftMouseButtonStatus()
+{
+   if ((GetKeyState(VK_LBUTTON) & 0x80) != 0){
+      return true;
+   }else return false;
+}
+
+bool CheckRightMouseButtonStatus()
+{
+   if ((GetKeyState(VK_RBUTTON) & 0x80) != 0)
+      return true;
+   else return false;
+}
+
+void LeftClick()
+{
+	INPUT In={0};													// Create our input.
+
+	In.type        = INPUT_MOUSE;									// Let input know we are using the mouse.
+	In.mi.dwFlags  = MOUSEEVENTF_LEFTDOWN;							// We are setting left mouse button down.
+	SendInput( 1, &In, sizeof(INPUT) );								// Send the input.
+
+	ZeroMemory(&In,sizeof(INPUT));									// Fills a block of memory with zeros.
+	In.type        = INPUT_MOUSE;									// Let input know we are using the mouse.
+	In.mi.dwFlags  = MOUSEEVENTF_LEFTUP;								// We are setting left mouse button up.
+	SendInput( 1, &In, sizeof(INPUT) );								// Send the input.
+}
+
+void RightClick()
+{
+	INPUT    In={0};													// Create our input.
+
+	In.type        = INPUT_MOUSE;						// Let input know we are using the mouse.
+	In.mi.dwFlags  = MOUSEEVENTF_RIGHTDOWN;							// We are setting left mouse button down.
+	SendInput( 1, &In, sizeof(INPUT) );								// Send the input.
+
+	ZeroMemory(&In,sizeof(INPUT));									// Fills a block of memory with zeros.
+	In.type        = INPUT_MOUSE;									// Let input know we are using the mouse.
+	In.mi.dwFlags  = MOUSEEVENTF_RIGHTUP;								// We are setting left mouse button up.
+	SendInput( 1, &In, sizeof(INPUT) );								// Send the input.
+}
+//==================================
 /* main */
 int main (int argc, const char** argv){
 
@@ -149,7 +207,7 @@ void faceDetection (Mat frame){
 		 eyesCascade.detectMultiScale( faceROI, eyes, 1.1, 2, 0 |CV_HAAR_SCALE_IMAGE, Size(30, 30) );
 
 		 //moveMouse(faces[i].x,faces[i].y,0);
-		 goToTopRight();
+		 RightClick();
 		 /*for( size_t j = 0; j < eyes.size(); j++ )
 		      {
 		        Point center( faces[i].x + eyes[j].x + eyes[j].width*0.5, faces[i].y + eyes[j].y + eyes[j].height*0.5 );
