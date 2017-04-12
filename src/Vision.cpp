@@ -44,25 +44,33 @@ Mouse::~Mouse(){
 }
 
 void Mouse::set_XYposition(int positionX, int positionY){
+	/* This funcion uses <Windows.h> function SetCursorPos(x,y) to instantly move the mouse cursor to the desired
+	location, based on pixel localization */
 	SetCursorPos(positionX,positionY);
 }
 
 int Mouse::getX(){
+	/* Returns the current X position of the cursor*/
 	POINT cursorPos;
 	GetCursorPos(&cursorPos);
 	return (int)cursorPos.x;
 }
 
 int Mouse::getY(){
+	/* Returns the current Y position of the cursor*/
 	POINT cursorPos;
 	GetCursorPos(&cursorPos);
 	return (int)cursorPos.y;
 }
 
 void moveTo(int x, int y){
+	/* This funcion uses <Windows.h> function SetCursorPos(x,y) to instantly move the mouse cursor to the desired
+	location, based on pixel localization */
 	SetCursorPos(x,y);
 }
 void goToTopRight (){
+	/* This funcion uses <Windows.h> function SetCursorPos(x,y) to instantly move the mouse cursor to the top right position
+	based on pixel localization */
 	RECT DesktopRect;
 	HWND hDesktop=::GetDesktopWindow();
 	::GetWindowRect(hDesktop, &DesktopRect);
@@ -70,13 +78,17 @@ void goToTopRight (){
 }
 
 void goToTopLeft (){
+	/* This funcion uses <Windows.h> function SetCursorPos(x,y) to instantly move the mouse cursor to the top left position
+	based on pixel localization */
 	RECT DesktopRect;
 	HWND hDesktop=::GetDesktopWindow();
 	::GetWindowRect(hDesktop, &DesktopRect);
 	SetCursorPos(0,0);
 }
 
-void goToBottonpRight (){
+void goToBottomRight (){
+	/* This funcion uses <Windows.h> function SetCursorPos(x,y) to instantly move the mouse cursor to the bottom right position
+	based on pixel localization */
 	RECT DesktopRect;
 	HWND hDesktop=::GetDesktopWindow();
 	::GetWindowRect(hDesktop, &DesktopRect);
@@ -84,6 +96,8 @@ void goToBottonpRight (){
 }
 
 void goToBottonLeft (){
+	/* This funcion uses <Windows.h> function SetCursorPos(x,y) to instantly move the mouse cursor to the bottom left position
+	based on pixel localization */
 	RECT DesktopRect;
 	HWND hDesktop=::GetDesktopWindow();
 	::GetWindowRect(hDesktop, &DesktopRect);
@@ -91,6 +105,8 @@ void goToBottonLeft (){
 }
 
 void goToCenter (){
+	/* This funcion uses <Windows.h> function SetCursorPos(x,y) to instantly move the mouse cursor to center of the screen
+	based on pixel localization */
 	RECT DesktopRect;
 	HWND hDesktop=::GetDesktopWindow();
 	::GetWindowRect(hDesktop, &DesktopRect);
@@ -98,12 +114,14 @@ void goToCenter (){
 }
 
 int currentXPosition(){
+	/* Returns the current X position of the cursor*/
 	POINT cursorPos;
 	GetCursorPos(&cursorPos);
 	float currentXPos = cursorPos.x;
 	return (int)currentXPos;
 }
 int currentYPosition(){
+	/* Returns the current Y position of the cursor*/
 	POINT cursorPos;
 	GetCursorPos(&cursorPos);
 	float currentYPos = cursorPos.y;
@@ -112,6 +130,7 @@ int currentYPosition(){
 
 bool CheckLeftMouseButtonStatus()
 {
+	/* Verify if the left mouse button is being pressed */
    if ((GetKeyState(VK_LBUTTON) & 0x80) != 0){
       return true;
    }else return false;
@@ -119,6 +138,7 @@ bool CheckLeftMouseButtonStatus()
 
 bool CheckRightMouseButtonStatus()
 {
+	/* Verify if the right mouse button is being pressed */
    if ((GetKeyState(VK_RBUTTON) & 0x80) != 0)
       return true;
    else return false;
@@ -126,6 +146,7 @@ bool CheckRightMouseButtonStatus()
 
 void LeftClick()
 {
+	/* Simulate the left click action */
 	INPUT In={0};													// Create our input.
 
 	In.type        = INPUT_MOUSE;									// Let input know we are using the mouse.
@@ -140,6 +161,7 @@ void LeftClick()
 
 void RightClick()
 {
+	/* Simulate the right click action */
 	INPUT    In={0};													// Create our input.
 
 	In.type        = INPUT_MOUSE;						// Let input know we are using the mouse.
