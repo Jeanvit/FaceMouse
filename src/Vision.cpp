@@ -59,6 +59,40 @@ int Mouse::getY(){
 	return (int)cursorPos.y;
 }
 
+void goToTopRight (){
+	RECT DesktopRect;
+	HWND hDesktop=::GetDesktopWindow();
+	::GetWindowRect(hDesktop, &DesktopRect);
+	SetCursorPos(DesktopRect.right,0);
+}
+
+void goToTopLeft (){
+	RECT DesktopRect;
+	HWND hDesktop=::GetDesktopWindow();
+	::GetWindowRect(hDesktop, &DesktopRect);
+	SetCursorPos(0,0);
+}
+
+void goToBottonpRight (){
+	RECT DesktopRect;
+	HWND hDesktop=::GetDesktopWindow();
+	::GetWindowRect(hDesktop, &DesktopRect);
+	SetCursorPos(0,DesktopRect.bottom);
+}
+
+void goToBottonLeft (){
+	RECT DesktopRect;
+	HWND hDesktop=::GetDesktopWindow();
+	::GetWindowRect(hDesktop, &DesktopRect);
+	SetCursorPos(DesktopRect.right,0);
+}
+
+void goToCenter (){
+	RECT DesktopRect;
+	HWND hDesktop=::GetDesktopWindow();
+	::GetWindowRect(hDesktop, &DesktopRect);
+	SetCursorPos(DesktopRect.right,0);
+}
 
 /* main */
 int main (int argc, const char** argv){
@@ -114,7 +148,8 @@ void faceDetection (Mat frame){
 		 vector<Rect> eyes;
 		 eyesCascade.detectMultiScale( faceROI, eyes, 1.1, 2, 0 |CV_HAAR_SCALE_IMAGE, Size(30, 30) );
 
-		 moveMouse(faces[i].x,faces[i].y,0);
+		 //moveMouse(faces[i].x,faces[i].y,0);
+		 goToTopRight();
 		 /*for( size_t j = 0; j < eyes.size(); j++ )
 		      {
 		        Point center( faces[i].x + eyes[j].x + eyes[j].width*0.5, faces[i].y + eyes[j].y + eyes[j].height*0.5 );
