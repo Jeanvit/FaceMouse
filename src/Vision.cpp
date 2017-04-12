@@ -183,6 +183,7 @@ int main (int argc, const char** argv){
 }
 
 void smoothXMovement(int x, int smoothness){
+	/* Realize a smooth vertical movement from the current X position to the new x position */
 	POINT cursorPos;
 	int totalMovementX,totalMovementY;
 	GetCursorPos(&cursorPos);
@@ -201,6 +202,7 @@ void smoothXMovement(int x, int smoothness){
 }
 
 void smoothYMovement(int y, int smoothness){
+	/* Realize a smooth horizontal movement from the current Y position to the new y position */
 	POINT cursorPos;
 	int totalMovementX,totalMovementY;
 	GetCursorPos(&cursorPos);
