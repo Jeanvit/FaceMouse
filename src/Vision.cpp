@@ -160,6 +160,42 @@ int main (int argc, const char** argv){
 	return 1;
 }
 
+void smoothXMovement(int x, int smoothness){
+	POINT cursorPos;
+	int totalMovementX,totalMovementY;
+	GetCursorPos(&cursorPos);
+	float currentXPos = cursorPos.x;
+	float currentYPos = cursorPos.y;
+	totalMovementX=x-currentXPos;
+	 if (totalMovementX>0)
+		 for (size_t i=0;i<=totalMovementX;i++){
+			 _sleep(smoothness);
+			 SetCursorPos(currentXPos++,currentYPos);
+		 }
+	 else for(size_t i=totalMovementX;i!=0;i++){
+		 _sleep(smoothness);
+		 SetCursorPos(currentXPos--,currentYPos);
+	 }
+}
+
+void smoothYMovement(int y, int smoothness){
+	POINT cursorPos;
+	int totalMovementX,totalMovementY;
+	GetCursorPos(&cursorPos);
+	float currentXPos = cursorPos.x;
+	float currentYPos = cursorPos.y;
+	totalMovementX=y-currentXPos;
+	if (totalMovementY>0)
+		 	for (size_t i=0;i<=totalMovementY;i++){
+		 		_sleep(smoothness);
+		 			 SetCursorPos(currentXPos,currentYPos++);
+		 	}
+	else for (size_t i=totalMovementY;i!=0;i++){
+		_sleep(smoothness);
+		 		 SetCursorPos(currentXPos,currentYPos--);
+		  }
+}
+
 
 int cameraImage(){
 	VideoCapture cap(cameraNumber);
@@ -207,7 +243,7 @@ void faceDetection (Mat frame){
 		 eyesCascade.detectMultiScale( faceROI, eyes, 1.1, 2, 0 |CV_HAAR_SCALE_IMAGE, Size(30, 30) );
 
 		 //moveMouse(faces[i].x,faces[i].y,0);
-		 RightClick();
+		 smoothYMovement(800,5);
 		 /*for( size_t j = 0; j < eyes.size(); j++ )
 		      {
 		        Point center( faces[i].x + eyes[j].x + eyes[j].width*0.5, faces[i].y + eyes[j].y + eyes[j].height*0.5 );
